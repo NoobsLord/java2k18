@@ -1,4 +1,4 @@
-package v0;
+package modele;
 
 public class ExceptionNomUtilise extends Exception {
 	public ExceptionNomUtilise(String message){

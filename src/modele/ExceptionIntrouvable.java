@@ -1,4 +1,4 @@
-package v0;
+package modele;
 
 public class ExceptionIntrouvable extends Exception {
 	public ExceptionIntrouvable(String message){
