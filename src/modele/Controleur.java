@@ -19,13 +19,12 @@ public class Controleur {
 		}
 		Images plop = new Images();
 
-		plop.Nom=nom;
-		plop.path=path;
-
 		try{
 
 			File chemin = new File(path);
 			plop.img = ImageIO.read(chemin);
+			plop.Nom=nom;
+			plop.path=chemin;
 			modele.all.add(plop);
 
 		}catch (IOException e){
