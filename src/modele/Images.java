@@ -2,19 +2,20 @@ package modele;
 
 import java.util.ArrayList;
 import java.awt.Image;
+import java.io.File;
 
 public class Images {
 	
-	String Nom;
-	Image img;
-	int Taille;
-	int Poids;
-	int Date;
-	boolean favori;
-	boolean visible;
-	String couleur;
-	String localisation;
-	String path;
-	ArrayList<String> motsclefs = new ArrayList<String>();
+	public String Nom;
+	public Image img;
+	public int Taille;
+	public int Poids;
+	public int Date;
+	public boolean favori;
+	public boolean visible;
+	public String couleur;
+	public String localisation;
+	public File path;
+	public ArrayList<String> motsclefs = new ArrayList<String>();
 	
 }
