@@ -1,3 +1,0 @@
-INDEX VERSION 1.127+/home/vgatto/workspace/.metadata/.plugins/org.eclipse.jdt.core
-4224889898.index
-3384600586.index
