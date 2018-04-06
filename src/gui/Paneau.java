@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 public class Paneau extends JPanel {
+	
 	public void paintComponent(Graphics g){
 		// Couleur de fond fenetre
 		super.paintComponent(g);

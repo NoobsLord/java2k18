@@ -56,7 +56,7 @@ public class interfaceGraphique extends JFrame {
 		// Titre de la fenetre 
 		this.setTitle("Gestion d'Images");
 		// taille de la fenetre
-		this.setSize(900,700);
+		this.setSize(1200,900);
 		// Emplacement de la fenetre
 		this.setLocationRelativeTo(null);
 		//Quitter le programme lorsqu'on ferme la fenetre
@@ -113,7 +113,7 @@ public class interfaceGraphique extends JFrame {
 
 		//Rechercher
 		this.getContentPane().add(b_rechercher);
-		b_rechercher.setBounds(fy1+210,10, 100, 50);
+		b_rechercher.setBounds(fy1+250,10, 130, 50);
 
 		//Supprimer
 		this.getContentPane().add(b_suppr);
@@ -170,11 +170,11 @@ public class interfaceGraphique extends JFrame {
 
 		//Ajouter
 		this.getContentPane().add(b_ajouter);
-		b_ajouter.setBounds(fy1-345, 150, 80, 30);
+		b_ajouter.setBounds(fy1-400, 150, 130, 30);
 
 		//Trier
 		this.getContentPane().add(b_trier);
-		b_trier.setBounds(fy1-265, 150, 80, 30);
+		b_trier.setBounds(fy1-300, 150, 130, 30);
 
 		//Rechercher2
 		this.getContentPane().add(b_rechercher2);
@@ -250,7 +250,13 @@ public class interfaceGraphique extends JFrame {
 	public void paint (Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
 		for (int i=0;i<modele.Modele.all.size();i++){
-			g.drawImage(modele.Modele.all.get(i).img, 280+pas*i, 190, 200,200,this);
+			/*Images temp_img = modele.Modele.all.get(i);
+			JPanel temp = new JPanel();
+			Dimension size = new Dimension(temp_img.dim_x,temp_img.dim_y);
+			temp.setPreferredSize(size);
+			temp.setMinimumSize(size);
+			temp.setMaximumSize(size);
+			g.drawImage(temp_img.img, 280+pas*i, 190, 200,200,this);*/
 		}
 
 	}
@@ -259,7 +265,7 @@ public class interfaceGraphique extends JFrame {
 			BufferedImage bi = ImageIO.read(modele.Modele.all.get(i).path);	
 			Graphics g = bi.getGraphics();
 			g.drawImage(modele.Modele.all.get(i).img, pas*i, pas*i, null);
-	}*/
+		}*/
 		repaint();
 	}
 

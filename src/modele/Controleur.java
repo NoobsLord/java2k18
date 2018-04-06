@@ -1,5 +1,7 @@
 package modele;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -22,9 +24,14 @@ public class Controleur {
 		try{
 
 			File chemin = new File(path);
+
 			plop.img = ImageIO.read(chemin);
 			plop.Nom=nom;
 			plop.path=chemin;
+			int x = plop.img.getWidth();
+			int y = plop.img.getHeight();
+			plop.dim_x = x;
+			plop.dim_y = y;
 			modele.all.add(plop);
 
 		}catch (IOException e){
@@ -72,8 +79,15 @@ public class Controleur {
 	public void toggle_favoris(Images img){
 		img.favori=!img.favori;
 	}
+	
+	/*public static void recup_dim(Images img){
+		int x = ((RenderedImage) img).getWidth();
+		int y = ((RenderedImage) img).getHeight();
+		img.dim_x = x;
+		img.dim_y = y;
+	}*/
 
-
+	
 
 
 
