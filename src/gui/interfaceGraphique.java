@@ -69,7 +69,7 @@ public class interfaceGraphique extends JFrame {
 		int x=this.getWidth()-60;
 		int y=this.getHeight()/2;
 		this.getContentPane().add(b_quitter);
-		b_quitter.setBounds(this.getWidth()-820,this.getHeight()-80,100,30);
+		b_quitter.setBounds(this.getWidth()-1065,this.getHeight()-80,100,30);
 		// couleur du texte du boutton
 		b_quitter.setForeground(Color.BLACK);
 		// Couleur du boutton
@@ -105,19 +105,19 @@ public class interfaceGraphique extends JFrame {
 		this.getContentPane().add(b_favoris);
 		int fx1=this.getWidth()/2;
 		int fy1=this.getHeight()/2;
-		b_favoris.setBounds(this.getWidth()/2, 10, 90, 50);
+		b_favoris.setBounds(this.getWidth()/2-25, 10, 100, 50);
 
 		//Album
 		this.getContentPane().add(b_album);
-		b_album.setBounds(fy1-30, 10, 100, 50);
+		b_album.setBounds(fy1-5, 10, 100, 50);
 
 		//Rechercher
 		this.getContentPane().add(b_rechercher);
-		b_rechercher.setBounds(fy1+250,10, 130, 50);
+		b_rechercher.setBounds(fy1+250,10, 115, 50);
 
 		//Supprimer
 		this.getContentPane().add(b_suppr);
-		b_suppr.setBounds(fy1-80, 90, 100, 30);
+		b_suppr.setBounds(fy1+20, 90, 100, 30);
 		// couleur du texte du boutton
 		b_suppr.setForeground(Color.BLACK);
 		// Couleur du boutton
@@ -131,7 +131,7 @@ public class interfaceGraphique extends JFrame {
 
 		//Rotation 
 		this.getContentPane().add(b_rotation);
-		b_rotation.setBounds(fy1+40, 90, 100, 30);
+		b_rotation.setBounds(fy1+140, 90, 100, 30);
 		// couleur du texte du boutton
 		b_rotation.setForeground(Color.BLACK);
 		// Couleur du boutton
@@ -144,7 +144,7 @@ public class interfaceGraphique extends JFrame {
 
 		//Exporter
 		this.getContentPane().add(b_export);
-		b_export.setBounds(fy1+160, 90, 100, 30);
+		b_export.setBounds(fy1+260, 90, 100, 30);
 		// couleur du texte du boutton
 		b_export.setForeground(Color.BLACK);
 		// Couleur du boutton
@@ -157,7 +157,7 @@ public class interfaceGraphique extends JFrame {
 
 		//Info
 		this.getContentPane().add(b_info);
-		b_info.setBounds(fy1+280, 90, 100, 30);
+		b_info.setBounds(fy1+380, 90, 100, 30);
 		// couleur du texte du boutton
 		b_info.setForeground(Color.BLACK);
 		// Couleur du boutton
@@ -170,16 +170,16 @@ public class interfaceGraphique extends JFrame {
 
 		//Ajouter
 		this.getContentPane().add(b_ajouter);
-		b_ajouter.setBounds(fy1-400, 150, 130, 30);
+		b_ajouter.setBounds(fy1-380, 150, 100, 30);
 
 		//Trier
 		this.getContentPane().add(b_trier);
-		b_trier.setBounds(fy1-300, 150, 130, 30);
+		b_trier.setBounds(fy1-260, 150, 100, 30);
 
 		//Rechercher2
-		this.getContentPane().add(b_rechercher2);
-		b_rechercher2.setBounds(fy1-185,150,80,30);
-		b_rechercher2.addActionListener(new actionListener());
+		//this.getContentPane().add(b_rechercher2);
+		//b_rechercher2.setBounds(fy1-185,150,80,30);
+		//b_rechercher2.addActionListener(new actionListener());
 
 		//Combobox_ mots clé 1
 		/*     mocle1.setBounds(23, 130, 150, 200);

@@ -15,7 +15,7 @@ public class Paneau extends JPanel {
 		int y2=this.getHeight()-130;
 		System.out.println("cliqué");
 		g.drawLine(0,80,this.getWidth(),80);
-		g.drawLine(this.getWidth()-640, this.getHeight()-y2, this.getWidth()-640, this.getHeight());
+		g.drawLine(this.getWidth()-820, this.getHeight()-y2, this.getWidth()-820, this.getHeight());
 		g.drawLine(0, 130, this.getWidth(), 130);
 		
 		
