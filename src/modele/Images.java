@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,8 +15,8 @@ public class Images {
 	public int Poids;
 	public int Date;
 	public boolean favori;
-	public boolean visible;
-	public String couleur;
+	//public boolean visible;
+	public Color couleur;
 	public String localisation;
 	public File path;
 	public ArrayList<String> motsclefs = new ArrayList<String>();

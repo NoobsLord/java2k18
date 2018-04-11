@@ -1,5 +1,6 @@
 package modele;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -28,10 +29,28 @@ public class Controleur {
 			plop.img = ImageIO.read(chemin);
 			plop.Nom=nom;
 			plop.path=chemin;
+			
 			int x = plop.img.getWidth();
 			int y = plop.img.getHeight();
 			plop.dim_x = x;
 			plop.dim_y = y;
+			
+			int red=0;
+			int green=0;
+			int blue=0;
+			for (int i=0;i<x;i++) {
+				for (int j = 0;j<y;j++) {
+					Color color = new Color(plop.img.getRGB(i, j));
+					red += color.getRed();
+					green += color.getGreen();
+					blue += color.getBlue();
+				}
+			}
+			red = red/x*y;
+			green = green/x*y;
+			blue = blue/x*y;
+			Color color = new Color(red,green,blue);
+			plop.couleur=color;
 			modele.all.add(plop);
 
 		}catch (IOException e){
