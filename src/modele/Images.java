@@ -16,7 +16,8 @@ public class Images {
 	public int Date;
 	public boolean favori;
 	//public boolean visible;
-	public Color couleur;
+	public Color couleur_moyenne;
+	public Color couleur_dominante;
 	public String localisation;
 	public File path;
 	public ArrayList<String> motsclefs = new ArrayList<String>();

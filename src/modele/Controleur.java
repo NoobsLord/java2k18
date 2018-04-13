@@ -1,6 +1,7 @@
 package modele;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -40,22 +41,55 @@ public class Controleur {
 			int blue=0;
 			for (int i=0;i<x;i++) {
 				for (int j = 0;j<y;j++) {
-					Color color = new Color(plop.img.getRGB(i, j));
-					red += color.getRed();
-					green += color.getGreen();
-					blue += color.getBlue();
+					int color = plop.img.getRGB(i, j);
+					red += (color >> 16) & 0x000000FF;
+					green += (color >> 8) & 0x000000FF;
+					blue += (color) & 0x000000FF;
+
 				}
 			}
-			red = red/x*y;
-			green = green/x*y;
-			blue = blue/x*y;
-			Color color = new Color(red,green,blue);
-			plop.couleur=color;
+
+			red = red/(plop.dim_x * plop.dim_y);
+			green = green/(plop.dim_x * plop.dim_y);
+			blue = blue/(plop.dim_x * plop.dim_y);
+			
+			plop.couleur_moyenne=new Color(red,green,blue);
+			plop.couleur_dominante=max(red,green,blue);
+			
+			double[] gps = plop.img.getGPSCoordinate();
+
 			modele.all.add(plop);
 
 		}catch (IOException e){
 			e.printStackTrace();
 		}
+	}
+	
+	public Color max(int r,int g,int b){
+		int coul[]={r,g,b};
+		int imax=0;
+		int max=0;
+		Color dom;
+		for (int i=0;i<coul.length;i++){
+			if (coul[i] > max){
+				max = coul[i];
+				imax = i;
+			}
+		}
+		if (imax==0){
+			//signifie que la couleur dominante est rouge
+			dom = new Color(255,0,0);
+		}
+		else if (imax==1){
+			//signifie que la couleur dominante est vert
+			dom = new Color(0,255,0);
+		}
+		else{
+			//signifie que la couleur dominante est bleu
+			dom = new Color(0,0,255);
+		}
+		
+		return dom;
 	}
 
 	public void supprimer_image(Images img){

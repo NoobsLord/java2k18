@@ -250,13 +250,16 @@ public class interfaceGraphique extends JFrame {
 	public void paint (Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
 		for (int i=0;i<modele.Modele.all.size();i++){
-			/*Images temp_img = modele.Modele.all.get(i);
+			Images temp_img = modele.Modele.all.get(i);
 			JPanel temp = new JPanel();
 			Dimension size = new Dimension(temp_img.dim_x,temp_img.dim_y);
 			temp.setPreferredSize(size);
 			temp.setMinimumSize(size);
 			temp.setMaximumSize(size);
-			g.drawImage(temp_img.img, 280+pas*i, 190, 200,200,this);*/
+			temp.setBackground(temp_img.couleur_dominante);
+			g.drawImage(temp_img.img, 350+pas*i, 190, 200,200,this);
+			
+			
 		}
 
 	}
@@ -274,9 +277,9 @@ public class interfaceGraphique extends JFrame {
 		Modele modele=new Modele();
 		Controleur ctrl=new Controleur();
 		ctrl.ajouter_image("icon.jpeg", "icon1");
-		ctrl.ajouter_image("icon.jpeg", "icon2");
-		ctrl.ajouter_image("icon.jpeg", "icon3");
-		ctrl.ajouter_image("icon.jpeg", "icon4");
+		//ctrl.ajouter_image("icon.jpeg", "icon2");
+		//ctrl.ajouter_image("icon.jpeg", "icon3");
+		//ctrl.ajouter_image("icon.jpeg", "icon4");
 
 		interfaceGraphique inter = new interfaceGraphique();
 		//afficher_tout();
