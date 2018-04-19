@@ -6,8 +6,7 @@ import javax.swing.JPanel;
 
 
 public class Fenetre extends JFrame {
-	ConteneurFenetre pan;
-	Graphisme graph;
+	ConteneurFenetre pan= new ConteneurFenetre();
 	
 	
 	
@@ -22,17 +21,15 @@ public class Fenetre extends JFrame {
 	
 
 	private void proprietefenetre(){
-		this.setSize(1200, 900);
+		this.setSize(1200, 850);
 		this.setTitle("Gestion d'Image");
 		this.getContentPane().setBackground(new Color(200,200,200));
 		this.setResizable(false); // non redimensionner
 		this.setLocationRelativeTo(null); // centrer
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // fermeture du programme lorsqu'on ferme la fenetre
 		
-		pan= new ConteneurFenetre();
-		this.add(pan);
 		
-		graph= new Graphisme();
+		this.add(pan);
 		
 	}
 	
