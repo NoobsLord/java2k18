@@ -56,7 +56,7 @@ public class Controleur {
 			plop.couleur_moyenne=new Color(red,green,blue);
 			plop.couleur_dominante=max(red,green,blue);
 			
-			double[] gps = plop.img.getGPSCoordinate();
+			//double[] gps = plop.img.getGPSCoordinate();
 
 			modele.all.add(plop);
 
@@ -78,15 +78,15 @@ public class Controleur {
 		}
 		if (imax==0){
 			//signifie que la couleur dominante est rouge
-			dom = new Color(255,0,0);
+			dom = Color.red;
 		}
 		else if (imax==1){
 			//signifie que la couleur dominante est vert
-			dom = new Color(0,255,0);
+			dom = Color.green;
 		}
 		else{
 			//signifie que la couleur dominante est bleu
-			dom = new Color(0,0,255);
+			dom = Color.blue;
 		}
 		
 		return dom;
@@ -107,42 +107,32 @@ public class Controleur {
 	}
 
 	public void creer_album(String nom)throws ExceptionNomUtilise{
-
+		boolean flag=true;
 		for (int i=0;i<modele.albums.size();i++){
-
 			if (modele.albums.get(i).Nom == nom){
+				flag=false;
 				throw new ExceptionNomUtilise("Ce nom est déjà utilise");	
 			}
-
 		}
-		Album plop=new Album();
-		plop.Nom=nom;
-		modele.albums.add(plop);
+		if (flag) {
+			Album plop=new Album();
+			plop.Nom=nom;
+			modele.albums.add(plop);
+		}
 	}
 
-	public void ajouter_album(Album alb, Images img)/*throws ExceptionIntrouvable*/{
+	public void ajouter_album(Album alb, Images img)throws ExceptionIntrouvable{
 		if (modele.albums.contains(alb)){
 			alb.contenu.add(img);
 		}
-		/*else{
+		else{
 			throw new ExceptionIntrouvable("Cet album n'existe pas");
-		}*/
+		}
 	}
 
 	public void toggle_favoris(Images img){
 		img.favori=!img.favori;
 	}
-	
-	/*public static void recup_dim(Images img){
-		int x = ((RenderedImage) img).getWidth();
-		int y = ((RenderedImage) img).getHeight();
-		img.dim_x = x;
-		img.dim_y = y;
-	}*/
-
-	
-
-
 
 }
 
