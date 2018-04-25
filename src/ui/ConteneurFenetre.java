@@ -1,13 +1,18 @@
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 
 public class ConteneurFenetre extends JPanel implements ActionListener {
@@ -22,6 +27,22 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 	private JButton information;
 	private JButton ajouter;
 	private JButton trier;
+	private JButton valider;
+	
+	private JComboBox combo1;
+	private JComboBox combo2;
+	private JComboBox combo3;
+	private JComboBox combo4;
+	private JComboBox combo5;
+	
+	private JLabel mocle1;
+	private JLabel mocle2;
+	private JLabel mocle3;
+	private JLabel mocle4; 
+	private JLabel mocle5; 
+	
+	private JTextField champText;
+	
 	
 	
 	
@@ -59,6 +80,11 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.bouttonInformation();
 		this.bouttonAjouter();
 		this.bouttonTrier();
+		this.bouttonValider();
+		this.proprieteMocle();
+		this.proprieteComboBox();
+		this.proprieteChampText();
+		
 	}
 	
 		
@@ -67,6 +93,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.album.setBounds(420, 10, 100, 50);
 		this.album.setText("Album");
 		this.add(album);
+		this.album.addActionListener(this);
 		
 		
 		
@@ -79,11 +106,12 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.add(favoris);
 	}
 	
-	private void bouttonRechercher(){
-		rechercher=new JButton();
-		this.rechercher.setBounds(660,10,100,50);
-		this.rechercher.setText("Rechercher");
-		this.add(rechercher);
+	private void bouttonAjouter(){
+		ajouter=new JButton();
+		this.ajouter.setBounds(660,10,100,50);
+		this.ajouter.setText("Ajouter");
+		this.add(ajouter);
+		this.ajouter.addActionListener(this);
 		
 	}
 	
@@ -156,30 +184,207 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.add(information);
 	}
 	
-	private void bouttonAjouter(){
-		ajouter= new JButton();
-		this.ajouter.setBounds(40, 150, 100, 30);
-		this.ajouter.setText("Ajouter");
-		this.add(ajouter);
+	private void bouttonRechercher(){
+		rechercher= new JButton();
+		this.rechercher.setBounds(30, 150, 120, 30);
+		this.rechercher.setText("Rechercher");
+		this.add(rechercher);
+		this.rechercher.addActionListener(this);
 	}
 	
 	private void bouttonTrier(){
 		trier= new JButton();
-		this.trier.setBounds(160, 150, 100, 30);
+		this.trier.setBounds(160, 150, 120, 30);
 		this.trier.setText("Tier");
 		this.add(trier);
+		this.trier.addActionListener(this);
+	}
+	
+	private void bouttonValider(){
+		valider= new JButton();
+		this.add(valider);
+	}
+	
+	private void proprieteChampText(){
+		champText= new JTextField();
+		this.add(champText);
+		
+	}
+	
+	private void proprieteComboBox(){
+		combo1= new JComboBox();
+		combo2= new JComboBox();
+		combo3= new JComboBox();
+		combo4= new JComboBox();
+		combo5= new JComboBox();
+		
+	    this.add(combo1);
+	    this.add(combo2);
+		this.add(combo3);
+		this.add(combo4);
+		this.add(combo5);
+	    
+	}
+	
+	private void proprieteMocle(){
+		mocle1= new JLabel();
+		mocle2= new JLabel();
+		mocle3= new JLabel();
+		mocle4= new JLabel();
+		mocle5= new JLabel();
+		
+		this.mocle1.setBounds(50, 220, 120, 25);
+		this.add(mocle1);
+		
+		this.mocle2.setBounds(50, 270, 120, 25);
+		this.add(mocle2);
+		
+		this.mocle3.setBounds(50, 320, 120, 25);
+		this.add(mocle3);
+		
+		this.mocle4.setBounds(50, 370, 120, 25);
+		this.add(mocle4);
+		
+		this.mocle5.setBounds(50, 420, 120, 25);
+		this.add(mocle5);
+		
 	}
 
 	
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()== this.quitter){
-			this.setVisible(false);
-		}
-		
-		
 	
+	
+	
+	
+	
+	
+	
+	
+	public void actionPerformed(ActionEvent e) {
+		
+		if(e.getSource()== this.album){
+			this.mocle1.setVisible(false);
+	        this.mocle2.setVisible(false);
+	        this.mocle3.setVisible(false);
+	        this.mocle4.setVisible(false);
+	        this.mocle5.setVisible(false);
+	        
+	        this.combo1.setVisible(false);
+	        this.combo2.setVisible(false);
+	        this.combo3.setVisible(false);
+	        this.combo4.setVisible(false);
+	        this.combo5.setVisible(false);
+	        
+			this.champText.setVisible(false);
+			
+			this.valider.setVisible(false);
+		}
+		else if(e.getSource()== this.trier){
+			this.mocle1.setText("Mot Clé 1");
+			this.mocle2.setText("Mot Clé 2");
+			this.mocle3.setText("Mot Clé 3");
+			this.mocle4.setText("Mot Clé 4");
+			this.mocle5.setText("Mot Clé 5");
+			
+			this.mocle1.setVisible(true);
+			this.mocle2.setVisible(true);
+			this.mocle3.setVisible(true);
+			this.mocle4.setVisible(true);
+			this.mocle5.setVisible(true);
+			
+			combo1.setBounds(140, 220, 120, 25);
+		    combo1.addItem("Option 1");
+		    combo1.addItem("Option 2");
+		    combo1.addItem("Option 3");
+		    combo1.addItem("Option 4");
+		    this.combo1.setVisible(true);
+		    
+		    
+		    combo2.setBounds(140, 270, 120, 25);
+		    combo2.addItem("Option 1");
+		    combo2.addItem("Option 2");
+		    combo2.addItem("Option 3");
+		    combo2.addItem("Option 4");
+		    this.combo2.setVisible(true);
+		    
+		    combo3.setBounds(140, 320, 120, 25);
+		    combo3.addItem("Option 1");
+		    combo3.addItem("Option 2");
+		    combo3.addItem("Option 3");
+		    combo3.addItem("Option 4");
+		    this.combo3.setVisible(true);
+		    
+		    combo4.setBounds(140, 370, 120, 25);
+		    combo4.addItem("Option 1");
+		    combo4.addItem("Option 2");
+		    combo4.addItem("Option 3");
+		    combo4.addItem("Option 4");
+		    this.combo4.setVisible(true);
+		    
+		    combo5.setBounds(140, 420, 120, 25);
+		    combo5.addItem("Option 1");
+		    combo5.addItem("Option 2");
+		    combo5.addItem("Option 3");
+		    combo5.addItem("Option 4");
+			this.combo5.setVisible(true);
+			
+		    this.valider.setBounds(105, 490, 80, 30);
+			this.valider.setText("Valider");
+			this.valider.setForeground(Color.BLACK);
+			this.valider.setBackground(Color.WHITE);
+			this.valider.setBorderPainted(true);
+			this.valider.setFocusPainted(true);
+	        Font f=new Font("Arial", Font.ITALIC, 11);
+	        this.valider.setFont(f);
+	        this.valider.setVisible(true);
+	        
+	        this.champText.setVisible(false);
+	        
 			
 		}
+		else if(e.getSource()== this.rechercher){
+			this.champText.setBounds(50, 220, 190, 30);
+			this.champText.setBackground(Color.WHITE);
+			this.champText.setVisible(true);
+			
+			this.valider.setBounds(105, 260, 80, 30);
+			this.valider.setText("Valider");
+			this.valider.setForeground(Color.BLACK);
+			this.valider.setBackground(Color.WHITE);
+			this.valider.setBorderPainted(true);
+			this.valider.setFocusPainted(true);
+	        Font f=new Font("Arial", Font.ITALIC, 11);
+	        this.valider.setFont(f);
+	        this.valider.setVisible(true);
+	        
+	       
+	        this.mocle1.setVisible(false);
+	        this.mocle2.setVisible(false);
+	        this.mocle3.setVisible(false);
+	        this.mocle4.setVisible(false);
+	        this.mocle5.setVisible(false);
+	        
+	        
+	        this.combo1.setVisible(false);
+	        this.combo2.setVisible(false);
+	        this.combo3.setVisible(false);
+	        this.combo4.setVisible(false);
+	        this.combo5.setVisible(false);
+	        
+		}
+		else if(e.getSource()== this.ajouter){
+			JFileChooser fic = new JFileChooser();
+			if (fic.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+			      try {
+			        /*demande au système d'ouvrir le fichier précédemment séléctionné ????*/ 
+			        Desktop.getDesktop().open(fic.getSelectedFile());
+			      } catch (IOException e1) {
+			        e1.printStackTrace();
+			      }
+		}
+		
+		
+	}
+		
 		
 	}
 
