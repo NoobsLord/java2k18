@@ -276,7 +276,7 @@ public class interfaceGraphique extends JFrame {
 	public static void main(String[] args) throws ExceptionNomUtilise, IOException {
 		Modele modele=new Modele();
 		Controleur ctrl=new Controleur();
-		ctrl.ajouter_image("icon.jpeg", "icon1");
+		//ctrl.ajouter_image("icon.jpeg", "icon1");
 		//ctrl.ajouter_image("icon.jpeg", "icon2");
 		//ctrl.ajouter_image("icon.jpeg", "icon3");
 		//ctrl.ajouter_image("icon.jpeg", "icon4");
