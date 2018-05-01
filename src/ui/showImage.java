@@ -8,11 +8,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class showImage extends JPanel {
+public class ShowImage extends JPanel {
 	
 	BufferedImage  image;
 	
-	public showImage(String chemin_de_limage) {
+	public ShowImage(String chemin_de_limage) {
 		    try {
 		 
 		  File input = new File(chemin_de_limage);
