@@ -77,14 +77,19 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 	public void affichement() {
 		ArrayList<JPanel> wesh = new ArrayList<JPanel>();
 		for (int i=0;i<Modele.all.size();i++) {
+			System.out.println(Modele.all.get(i).path);
 			JPanel test = new JPanel();
 			test.setPreferredSize(new Dimension(150,150));
-			test.setLayout(null);
-			wesh.add(test);
+			if(i<=5) {
+				test.setBounds((150 + 28)*i,130, 150, 150);
+			}
+			else if (i<=10) {
+				test.setBounds((150 + 28)*i,300, 150, 150);
+			}
+			
+			//test.setLayout(null);
+			this.add(test);
 		}
-		//Pano test = new Pano(0);
-		//this.add(test);
-		//test.drawImage(img.img,0,0,null);
 	}
 	
 	private void proprieteConteneur(){
@@ -290,7 +295,12 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			this.champText.setVisible(false);
 
 			this.valider.setVisible(false);
+			
+			//#######################
+			
 			affichement();
+			
+			//#######################
 		}
 		else if(e.getSource()== this.trier){
 			this.mocle1.setText("Mot Clé 1");
