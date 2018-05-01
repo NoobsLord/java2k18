@@ -47,7 +47,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 	private JLabel mocle5; 
 
 	private JTextField champText;
-
+	private ArrayList<JPanel> wesh = new ArrayList<JPanel>();
 
 
 
@@ -71,11 +71,15 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		g.drawLine(0, 130, this.getWidth(), 130);
 		g.drawLine(this.getWidth()-890, this.getHeight()-y2, this.getWidth()-890, this.getHeight());
 		this.setVisible(true);
+		
+		for (int i =0;i<wesh.size();i++) {
+			g.drawImage(Modele.all.get(i).img, wesh.get(i).getWidth(), wesh.get(i).getHeight(), wesh.get(i));
+		}
 
 	}
 	
 	public void affichement() {
-		ArrayList<JPanel> wesh = new ArrayList<JPanel>();
+		wesh = new ArrayList<JPanel>();
 		for (int i=0;i<Modele.all.size();i++) {
 			System.out.println(Modele.all.get(i).path);
 			JPanel test = new JPanel();
@@ -88,7 +92,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			}
 			
 			//test.setLayout(null);
-			this.add(test);
+			wesh.add(test);
 		}
 	}
 	
