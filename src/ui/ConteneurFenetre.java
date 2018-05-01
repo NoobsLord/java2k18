@@ -1,11 +1,13 @@
 package ui;
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -71,6 +73,20 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.setVisible(true);
 
 	}
+	
+	public void affichement() {
+		ArrayList<JPanel> wesh = new ArrayList<JPanel>();
+		for (int i=0;i<Modele.all.size();i++) {
+			JPanel test = new JPanel();
+			test.setPreferredSize(new Dimension(150,150));
+			test.setLayout(null);
+			wesh.add(test);
+		}
+		//Pano test = new Pano(0);
+		//this.add(test);
+		//test.drawImage(img.img,0,0,null);
+	}
+	
 	private void proprieteConteneur(){
 		this.setLayout(null);
 		this.boutonAlbum();
@@ -256,12 +272,6 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 
 
 
-
-
-
-
-
-
 	public void actionPerformed(ActionEvent e) {
 
 		if(e.getSource()== this.album){
@@ -280,6 +290,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			this.champText.setVisible(false);
 
 			this.valider.setVisible(false);
+			affichement();
 		}
 		else if(e.getSource()== this.trier){
 			this.mocle1.setText("Mot Clé 1");
@@ -372,6 +383,8 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			this.combo3.setVisible(false);
 			this.combo4.setVisible(false);
 			this.combo5.setVisible(false);
+			
+			Controleur.display_color(Modele.all,Color.red);
 
 		}
 		else if(e.getSource()== this.ajouter){

@@ -9,17 +9,10 @@ import javax.swing.JPanel;
 public class Fenetre extends JFrame {
 	ConteneurFenetre pan= new ConteneurFenetre();
 
-
-
 	public Fenetre(){
 		super();
 		proprietefenetre();
-
 	}
-
-
-
-
 
 	private void proprietefenetre(){
 		this.setSize(1200, 850);
@@ -29,14 +22,9 @@ public class Fenetre extends JFrame {
 		this.setLocationRelativeTo(null); // centrer
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // fermeture du programme lorsqu'on ferme la fenetre
 
-
 		this.add(pan);
 
 	}
-
-
-
-
 }
 
 

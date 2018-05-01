@@ -66,15 +66,32 @@ public class Controleur {
 		}
 	}
 
-	private static void display(ArrayList<Images> all) {
+	public static void display(ArrayList<Images> all) {
 		for(int i=0;i<all.size();i++) {
+			System.out.println("");
+			System.out.println(i);
 			System.out.println("chemin :"+all.get(i).path);
 			System.out.println("hauteur :"+all.get(i).dim_y);
 			System.out.println("largeur :"+all.get(i).dim_x);
 			System.out.println("moyenne :"+all.get(i).couleur_moyenne);
 			System.out.println("dominante :"+all.get(i).couleur_dominante);
 		}
+	}
 
+	public static void display_color(ArrayList<Images> all,Color coul) {
+		System.out.println("--------------------------");
+		for(int i=0;i<all.size();i++) {
+			if (all.get(i).couleur_dominante == coul) {
+				System.out.println("");
+				System.out.println(i);
+				System.out.println("chemin :"+all.get(i).path);
+				System.out.println("hauteur :"+all.get(i).dim_y);
+				System.out.println("largeur :"+all.get(i).dim_x);
+				System.out.println("moyenne :"+all.get(i).couleur_moyenne);
+				System.out.println("dominante :"+all.get(i).couleur_dominante);
+			}
+		}
+		System.out.println("--------------------------");
 	}
 
 	public static Color max(int r,int g,int b){
@@ -135,11 +152,13 @@ public class Controleur {
 
 	public void ajouter_album(Album alb, Images img)throws ExceptionIntrouvable{
 		if (modele.albums.contains(alb)){
-			alb.contenu.add(img);
+			if (!alb.contenu.contains(img)) {
+				alb.contenu.add(img);
+			}
 		}
-		else{
+		/*else{
 			throw new ExceptionIntrouvable("Cet album n'existe pas");
-		}
+		}*/
 	}
 
 	public void toggle_favoris(Images img){
