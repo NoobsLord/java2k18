@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -14,7 +15,7 @@ public class Controleur {
 
 	public static Modele modele=new Modele();
 
-	public static void ajouter_image(String path)throws ExceptionNomUtilise{
+	public static void ajouter_image(String path)/*throws ExceptionNomUtilise*/{
 		//modele.paths.add(path);
 		/*for (int i=0;i<modele.all.size();i++){
 			if (modele.all.get(i).Nom == nom){
@@ -78,20 +79,23 @@ public class Controleur {
 		}
 	}
 
-	public static void display_color(ArrayList<Images> all,Color coul) {
-		System.out.println("--------------------------");
-		for(int i=0;i<all.size();i++) {
-			if (all.get(i).couleur_dominante == coul) {
-				System.out.println("");
-				System.out.println(i);
-				System.out.println("chemin :"+all.get(i).path);
-				System.out.println("hauteur :"+all.get(i).dim_y);
-				System.out.println("largeur :"+all.get(i).dim_x);
-				System.out.println("moyenne :"+all.get(i).couleur_moyenne);
-				System.out.println("dominante :"+all.get(i).couleur_dominante);
+	public static ArrayList<Images> tri_couleur(Color coul) {
+		ArrayList<Images> res = new ArrayList<Images>();
+		for(int i=0;i<modele.all.size();i++) {
+			if (modele.all.get(i).couleur_dominante == coul) {
+				res.add(modele.all.get(i));
 			}
 		}
-		System.out.println("--------------------------");
+		return res;
+	}
+
+	public static ArrayList<Images> tri_nom(){
+		ArrayList<Images> res = new ArrayList<Images>();
+		for(int i=0;i<modele.all.size();i++) {
+
+		}
+
+		return res;
 	}
 
 	public static Color max(int r,int g,int b){
@@ -164,6 +168,25 @@ public class Controleur {
 	public void toggle_favoris(Images img){
 		img.favori=!img.favori;
 	}
+
+
+
+	public static void getFiles() /*throws ExceptionNomUtilise*/{
+		String tempath;
+		String dirPath = "C:/Users/NoobsLord-pécé/Documents/GitHub/java2k18/Bibliotheque";
+		File dir = new File(dirPath);
+		String[] files = dir.list();
+		if (files.length == 0) {
+			System.out.println("Bibliotheque vide");
+		} else {
+			for (String aFile : files) {
+				tempath = dirPath + "/" + aFile;
+				System.out.println(aFile);
+				ajouter_image(tempath);
+			}
+		}
+	}
+
 
 }
 

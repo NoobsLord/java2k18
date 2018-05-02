@@ -4,11 +4,13 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -21,6 +23,7 @@ import modele.*;
 
 
 public class ConteneurFenetre extends JPanel implements ActionListener {
+	public int indice=0;
 
 	private JButton album;
 	private JButton favoris;
@@ -71,15 +74,25 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		g.drawLine(0, 130, this.getWidth(), 130);
 		g.drawLine(this.getWidth()-890, this.getHeight()-y2, this.getWidth()-890, this.getHeight());
 		this.setVisible(true);
-		
-		for (int i =0;i<wesh.size();i++) {
-			g.drawImage(Modele.all.get(i).img, wesh.get(i).getWidth(), wesh.get(i).getHeight(), wesh.get(i));
-		}
 
+		/*for (int i =0;i<wesh.size();i++) {
+			g.drawImage(Modele.all.get(i).img, wesh.get(i).getWidth(), wesh.get(i).getHeight(), this);
+		}*/
+		if (Modele.all.size() > 0) {
+			JPanel pan = new JPanel();
+			//pan.setPreferredSize(new Dimension(500,500));
+			//pan.setBounds(250, 250, 610, 610);
+			
+			Image current = Modele.all.get(indice).img.getScaledInstance(500, 500, Image.SCALE_SMOOTH);
+			//JLabel boulbi = new JLabel(new ImageIcon(current));
+			g.drawImage(current, 100,100,this);
+			//pan.add(boulbi);
+			this.add(pan);
+		}
 	}
-	
+
 	public void affichement() {
-		wesh = new ArrayList<JPanel>();
+		/*wesh = new ArrayList<JPanel>();
 		for (int i=0;i<Modele.all.size();i++) {
 			System.out.println(Modele.all.get(i).path);
 			JPanel test = new JPanel();
@@ -90,12 +103,15 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			else if (i<=10) {
 				test.setBounds((150 + 28)*i,300, 150, 150);
 			}
-			
-			//test.setLayout(null);
+
+			this.add(test);
 			wesh.add(test);
 		}
+		 */
+		indice = 0;
+		repaint();
 	}
-	
+
 	private void proprieteConteneur(){
 		this.setLayout(null);
 		this.boutonAlbum();
@@ -299,11 +315,11 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			this.champText.setVisible(false);
 
 			this.valider.setVisible(false);
-			
+
 			//#######################
-			
+
 			affichement();
-			
+
 			//#######################
 		}
 		else if(e.getSource()== this.trier){
@@ -397,8 +413,8 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			this.combo3.setVisible(false);
 			this.combo4.setVisible(false);
 			this.combo5.setVisible(false);
-			
-			Controleur.display_color(Modele.all,Color.red);
+
+			Controleur.tri_couleur(Color.red);
 
 		}
 		else if(e.getSource()== this.ajouter){
@@ -406,11 +422,11 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF & PNG Images", "jpg", "gif","png");
 			fic.setFileFilter(filter);
 			if (fic.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
-				try {
+				//try {
 					Controleur.ajouter_image(fic.getSelectedFile().getPath());
-				} catch (ExceptionNomUtilise e1) {
+				/*} catch (ExceptionNomUtilise e1) {
 					e1.printStackTrace();
-				}
+				}*/
 		}
 
 
