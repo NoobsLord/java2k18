@@ -13,5 +13,4 @@ public class Principale {
 		Controleur.getFiles();
 		ConteneurFenetre.active = Modele.all;
 	}
-
 }

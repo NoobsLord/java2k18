@@ -18,7 +18,7 @@ public class Controleur {
 
 	public static void ajouter_image(String path) throws ExceptionNomUtilise{
 		//modele.paths.add(path);
-		for (int i=0;i<modele.all.size();i++){
+		for (int i=0;i<Modele.all.size();i++){
 			if (modele.all.get(i).path == path){
 				throw new ExceptionNomUtilise("Ce nom est déjà utilise");
 			}
@@ -82,9 +82,9 @@ public class Controleur {
 
 	public static ArrayList<Images> tri_couleur(Color coul) {
 		ArrayList<Images> res = new ArrayList<Images>();
-		for(int i=0;i<modele.all.size();i++) {
-			if (modele.all.get(i).couleur_dominante == coul) {
-				res.add(modele.all.get(i));
+		for(int i=0;i<Modele.all.size();i++) {
+			if (Modele.all.get(i).couleur_dominante == coul) {
+				res.add(Modele.all.get(i));
 			}
 		}
 		return res;
@@ -92,7 +92,7 @@ public class Controleur {
 
 	public static ArrayList<Images> tri_nom(){
 		ArrayList<Images> res = new ArrayList<Images>();
-		for(int i=0;i<modele.all.size();i++) {
+		for(int i=0;i<Modele.all.size();i++) {
 
 		}
 
@@ -127,12 +127,12 @@ public class Controleur {
 	}
 
 	public void supprimer_image(Images img){
-		modele.all.remove(img);
+		Modele.all.remove(img);
 	}
 
 	public void ajouter_mc(Images img, String str){
-		if (!modele.mots_clefs.contains(str)){
-			modele.mots_clefs.add(str);
+		if (!Modele.mots_clefs.contains(str)){
+			Modele.mots_clefs.add(str);
 		}
 
 		if (!img.motsclefs.contains(str)){
@@ -142,8 +142,8 @@ public class Controleur {
 
 	public void creer_album(String nom)throws ExceptionNomUtilise{
 		boolean flag=true;
-		for (int i=0;i<modele.albums.size();i++){
-			if (modele.albums.get(i).Nom == nom){
+		for (int i=0;i<Modele.albums.size();i++){
+			if (Modele.albums.get(i).Nom == nom){
 				flag=false;
 				throw new ExceptionNomUtilise("Ce nom est déjà utilise");	
 			}
@@ -151,12 +151,12 @@ public class Controleur {
 		if (flag) {
 			Album plop=new Album();
 			plop.Nom=nom;
-			modele.albums.add(plop);
+			Modele.albums.add(plop);
 		}
 	}
 
 	public static void ajouter_album(Album alb, Images img)throws ExceptionIntrouvable{
-		if (modele.albums.contains(alb)){
+		if (Modele.albums.contains(alb)){
 			if (!alb.contenu.contains(img)) {
 				alb.contenu.add(img);
 			}

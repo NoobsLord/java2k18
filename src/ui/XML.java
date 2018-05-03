@@ -1,7 +1,7 @@
 package ui;
 
 
-import package modele;
+import modele.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,7 +11,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Observable;
-import color ;
+import java.awt.*;
+
 public abstract class Modèle  extends Observable { 
 
 	public ArrayList<Image> images;
@@ -39,7 +40,7 @@ public abstract class Modèle  extends Observable {
 	}
 	public string getnom()
 				{
-			return nom 
+			return nom; 
 				}
 	
 	public Images (Color coleur ) {
@@ -48,7 +49,7 @@ public abstract class Modèle  extends Observable {
     }
 	public Color getcolor()
 	{
-		return coleur 
+		return coleur ;
 	}
 		
 	}

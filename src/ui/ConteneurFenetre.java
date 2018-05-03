@@ -128,7 +128,6 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			else {
 				g.drawImage(fav_off, this.getWidth()-75, 10, this);
 			}
-			//System.out.println(indice);
 		}
 	}
 

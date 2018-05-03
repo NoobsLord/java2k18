@@ -24,7 +24,7 @@ import modele.Modele;
 public class Modele_XML extends Modele { 
 
 	
-	public Modèle_XML() {}
+	public void Modèle_XML() {}
 	
 	public void chargerDonnées(String dir) {
 		
@@ -54,3 +54,6 @@ public class Modele_XML extends Modele {
 			if (encoder != null) {
 				encoder.close();
 			}
+		}
+	}
+}
