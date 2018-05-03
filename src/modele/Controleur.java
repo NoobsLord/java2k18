@@ -1,6 +1,7 @@
 package modele;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
@@ -60,7 +61,7 @@ public class Controleur {
 			//double[] gps = plop.img.getGPSCoordinate();
 
 			modele.all.add(plop);
-			display(modele.all);
+			//display(modele.all);
 
 		}catch (IOException e){
 			e.printStackTrace();
@@ -185,6 +186,24 @@ public class Controleur {
 				ajouter_image(tempath);
 			}
 		}
+	}
+	public static Dimension dimension_ratio(Dimension dim) {
+		int objectif = 650;
+		int largeur = dim.width;
+		int hauteur = dim.height;
+		int newlargeur = largeur;
+		int newhauteur = hauteur;
+		
+		if (largeur > objectif) {
+			newlargeur = objectif;
+			newhauteur = (newlargeur * hauteur) / largeur;
+		}
+		if (newhauteur > objectif) {
+			newhauteur = objectif;
+			newlargeur = (newhauteur * largeur) / hauteur;
+		}
+		
+		return new Dimension(newlargeur,newhauteur);
 	}
 
 

@@ -23,7 +23,7 @@ import modele.*;
 
 
 public class ConteneurFenetre extends JPanel implements ActionListener {
-	public int indice=0;
+	public static int indice=0;
 
 	private JButton album;
 	private JButton favoris;
@@ -36,6 +36,8 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 	private JButton ajouter;
 	private JButton trier;
 	private JButton valider;
+	private JButton suivant;
+	private JButton precedent;
 
 	private JComboBox combo1;
 	private JComboBox combo2;
@@ -51,6 +53,9 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 
 	private JTextField champText;
 	private ArrayList<JPanel> wesh = new ArrayList<JPanel>();
+	
+	private int center_width;
+	private int center_height;
 
 
 
@@ -69,10 +74,11 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		int x1=this.getWidth()/4;
 		int y1=this.getHeight()/4;
 		int y2=this.getHeight()-130;
-		System.out.println("cliqué");
+		System.out.println("repaint");
 		g.drawLine(0,80,this.getWidth(),80);
 		g.drawLine(0, 130, this.getWidth(), 130);
 		g.drawLine(this.getWidth()-890, this.getHeight()-y2, this.getWidth()-890, this.getHeight());
+		g.drawLine(this.getWidth()-200, 130, this.getWidth()-200, this.getHeight());
 		this.setVisible(true);
 
 		/*for (int i =0;i<wesh.size();i++) {
@@ -80,14 +86,28 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		}*/
 		if (Modele.all.size() > 0) {
 			JPanel pan = new JPanel();
-			//pan.setPreferredSize(new Dimension(500,500));
-			//pan.setBounds(250, 250, 610, 610);
 			
-			Image current = Modele.all.get(indice).img.getScaledInstance(500, 500, Image.SCALE_SMOOTH);
-			//JLabel boulbi = new JLabel(new ImageIcon(current));
-			g.drawImage(current, 100,100,this);
-			//pan.add(boulbi);
-			this.add(pan);
+			center_width = (this.getWidth()/2)+(310/2);
+			center_height = (this.getHeight()/2)+(130/2)-50;
+			this.boutonSuivant();
+			this.boutonPrecedent();
+			Images ancour = Modele.all.get(indice);
+			Dimension vanilla = new Dimension(Modele.all.get(indice).dim_x,Modele.all.get(indice).dim_y);
+			Dimension dim = Controleur.dimension_ratio(vanilla);
+			
+			Image current = Modele.all.get(indice).img.getScaledInstance(dim.width, dim.height, Image.SCALE_SMOOTH);
+			g.drawImage(current, center_width-(dim.width/2)-100,center_height-(dim.height/2),this);
+			g.drawString("dimensions : "+ancour.dim_x+" x "+ancour.dim_y, this.getWidth()-190, 180);
+			g.drawString("couleur moyenne : ", this.getWidth()-190, 230);
+			g.setColor(ancour.couleur_moyenne);
+			g.fillRect(this.getWidth()-75, 200, 50, 50);
+			g.setColor(Color.black);
+			g.drawRect(this.getWidth()-75, 200, 50, 50);
+			g.drawString("couleur dominante : ", this.getWidth()-190, 300);
+			g.setColor(ancour.couleur_dominante);
+			g.fillRect(this.getWidth()-75, 270, 50, 50);
+			g.setColor(Color.black);
+			g.drawRect(this.getWidth()-75, 270, 50, 50);
 		}
 	}
 
@@ -130,7 +150,22 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.proprieteChampText();
 
 	}
-
+	
+	private void boutonSuivant() {
+		suivant = new JButton();
+		this.suivant.setBounds(center_width-70,this.getHeight()-70,50,50);
+		this.suivant.setText(">>");
+		this.add(suivant);
+		this.suivant.addActionListener(next());
+	}
+	
+	private void boutonPrecedent() {
+		precedent = new JButton();
+		this.precedent.setBounds(center_width-130,this.getHeight()-70,50,50);
+		this.precedent.setText("<<");
+		this.add(precedent);
+		this.precedent.addActionListener(prev());
+	}
 
 	private void boutonAlbum(){
 		album= new JButton();
@@ -138,8 +173,6 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.album.setText("Album");
 		this.add(album);
 		this.album.addActionListener(this);
-
-
 
 	}
 
@@ -293,6 +326,16 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.add(mocle5);
 
 	}
+	
+	public static ActionListener next() {
+		indice += 1;
+		return null;
+	}
+	
+	public static ActionListener prev() {
+		indice -= 1;
+		return null;
+	}
 
 
 
@@ -318,7 +361,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 
 			//#######################
 
-			affichement();
+			//affichement();
 
 			//#######################
 		}
@@ -428,6 +471,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 					e1.printStackTrace();
 				}*/
 		}
+		repaint();
 
 
 	}
