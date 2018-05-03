@@ -32,10 +32,7 @@ public abstract class Modèle  extends Observable {
 		}
 	}
 
-	public void sélection(int item) {
-		this.indexImageSelectionnée = item;
-		this.setChanged();this.notifyObservers(this.images.get(this.indexImageSelectionnée));
-	}
+	
 	public images (string nom )		{
 		
 		this.nom = nom;
