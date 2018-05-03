@@ -19,7 +19,7 @@ public class Images {
 	public Color couleur_moyenne;
 	public Color couleur_dominante;
 	public String localisation;
-	public File path;
+	public String path;
 	public ArrayList<String> motsclefs = new ArrayList<String>();
 	
 }

@@ -16,13 +16,13 @@ public class Controleur {
 
 	public static Modele modele=new Modele();
 
-	public static void ajouter_image(String path)/*throws ExceptionNomUtilise*/{
+	public static void ajouter_image(String path) throws ExceptionNomUtilise{
 		//modele.paths.add(path);
-		/*for (int i=0;i<modele.all.size();i++){
-			if (modele.all.get(i).Nom == nom){
+		for (int i=0;i<modele.all.size();i++){
+			if (modele.all.get(i).path == path){
 				throw new ExceptionNomUtilise("Ce nom est dÃ©jÃ  utilise");
 			}
-		}*/
+		}
 		Images plop = new Images();
 
 		try{
@@ -31,7 +31,7 @@ public class Controleur {
 
 			plop.img = ImageIO.read(chemin);
 			//plop.Nom=nom;
-			plop.path=chemin;
+			plop.path=chemin.getAbsolutePath();
 
 			int x = plop.img.getWidth();
 			int y = plop.img.getHeight();
@@ -58,7 +58,7 @@ public class Controleur {
 			plop.couleur_moyenne=new Color(red,green,blue);
 			plop.couleur_dominante=max(red,green,blue);
 
-			//double[] gps = plop.img.getGPSCoordinate();
+			plop.favori = false;
 
 			modele.all.add(plop);
 			//display(modele.all);
@@ -155,7 +155,7 @@ public class Controleur {
 		}
 	}
 
-	public void ajouter_album(Album alb, Images img)throws ExceptionIntrouvable{
+	public static void ajouter_album(Album alb, Images img)throws ExceptionIntrouvable{
 		if (modele.albums.contains(alb)){
 			if (!alb.contenu.contains(img)) {
 				alb.contenu.add(img);
@@ -166,13 +166,13 @@ public class Controleur {
 		}*/
 	}
 
-	public void toggle_favoris(Images img){
+	public static void toggle_favoris(Images img){
 		img.favori=!img.favori;
 	}
 
 
 
-	public static void getFiles() /*throws ExceptionNomUtilise*/{
+	public static void getFiles() throws ExceptionNomUtilise{
 		String tempath;
 		String dirPath = "C:/Users/NoobsLord-pécé/Documents/GitHub/java2k18/Bibliotheque";
 		File dir = new File(dirPath);
@@ -187,6 +187,7 @@ public class Controleur {
 			}
 		}
 	}
+	
 	public static Dimension dimension_ratio(Dimension dim) {
 		int objectif = 650;
 		int largeur = dim.width;

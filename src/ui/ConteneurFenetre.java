@@ -7,9 +7,12 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,7 +26,7 @@ import modele.*;
 
 
 public class ConteneurFenetre extends JPanel implements ActionListener {
-	public static int indice=0;
+	public int indice=0;
 
 	private JButton album;
 	private JButton favoris;
@@ -52,10 +55,16 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 	private JLabel mocle5; 
 
 	private JTextField champText;
-	private ArrayList<JPanel> wesh = new ArrayList<JPanel>();
-	
+
+	public static ArrayList<Images> active = new ArrayList<Images>();
+
 	private int center_width;
 	private int center_height;
+
+	private BufferedImage fav_on;
+	private BufferedImage fav_off;
+
+
 
 
 
@@ -64,38 +73,41 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		super();
 		this.proprieteConteneur();
 
-
 	}
 
 	public void paintComponent(Graphics g){
 		// Couleur de fond fenetre
+
+		try {
+			fav_on = ImageIO.read(new File("./star_on.png"));
+			fav_off = ImageIO.read(new File("./star_off.png"));
+		} catch (IOException e) {
+		}
+
 		super.paintComponent(g);
 		this.setBackground(new Color(200,200,200));
 		int x1=this.getWidth()/4;
 		int y1=this.getHeight()/4;
 		int y2=this.getHeight()-130;
-		System.out.println("repaint");
+		//System.out.println("repaint");
 		g.drawLine(0,80,this.getWidth(),80);
 		g.drawLine(0, 130, this.getWidth(), 130);
 		g.drawLine(this.getWidth()-890, this.getHeight()-y2, this.getWidth()-890, this.getHeight());
 		g.drawLine(this.getWidth()-200, 130, this.getWidth()-200, this.getHeight());
 		this.setVisible(true);
 
-		/*for (int i =0;i<wesh.size();i++) {
-			g.drawImage(Modele.all.get(i).img, wesh.get(i).getWidth(), wesh.get(i).getHeight(), this);
-		}*/
-		if (Modele.all.size() > 0) {
+		if (active.size() > 0) {
 			JPanel pan = new JPanel();
-			
+
 			center_width = (this.getWidth()/2)+(310/2);
 			center_height = (this.getHeight()/2)+(130/2)-50;
 			this.boutonSuivant();
 			this.boutonPrecedent();
-			Images ancour = Modele.all.get(indice);
-			Dimension vanilla = new Dimension(Modele.all.get(indice).dim_x,Modele.all.get(indice).dim_y);
+			Images ancour = active.get(indice);
+			Dimension vanilla = new Dimension(ancour.dim_x,ancour.dim_y);
 			Dimension dim = Controleur.dimension_ratio(vanilla);
-			
-			Image current = Modele.all.get(indice).img.getScaledInstance(dim.width, dim.height, Image.SCALE_SMOOTH);
+
+			Image current = ancour.img.getScaledInstance(dim.width, dim.height, Image.SCALE_SMOOTH);
 			g.drawImage(current, center_width-(dim.width/2)-100,center_height-(dim.height/2),this);
 			g.drawString("dimensions : "+ancour.dim_x+" x "+ancour.dim_y, this.getWidth()-190, 180);
 			g.drawString("couleur moyenne : ", this.getWidth()-190, 230);
@@ -108,28 +120,16 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			g.fillRect(this.getWidth()-75, 270, 50, 50);
 			g.setColor(Color.black);
 			g.drawRect(this.getWidth()-75, 270, 50, 50);
-		}
-	}
+			g.drawString((indice+1) + " / " + active.size(), 666, 750);
 
-	public void affichement() {
-		/*wesh = new ArrayList<JPanel>();
-		for (int i=0;i<Modele.all.size();i++) {
-			System.out.println(Modele.all.get(i).path);
-			JPanel test = new JPanel();
-			test.setPreferredSize(new Dimension(150,150));
-			if(i<=5) {
-				test.setBounds((150 + 28)*i,130, 150, 150);
+			if(ancour.favori) {
+				g.drawImage(fav_on, this.getWidth()-75, 10, this);
 			}
-			else if (i<=10) {
-				test.setBounds((150 + 28)*i,300, 150, 150);
+			else {
+				g.drawImage(fav_off, this.getWidth()-75, 10, this);
 			}
-
-			this.add(test);
-			wesh.add(test);
+			//System.out.println(indice);
 		}
-		 */
-		indice = 0;
-		repaint();
 	}
 
 	private void proprieteConteneur(){
@@ -150,29 +150,60 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.proprieteChampText();
 
 	}
-	
+
 	private void boutonSuivant() {
 		suivant = new JButton();
 		this.suivant.setBounds(center_width-70,this.getHeight()-70,50,50);
 		this.suivant.setText(">>");
+		suivant.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (indice+1==active.size()-1) {
+					suivant.setVisible(false);
+				}
+				if (indice < active.size()-1) {
+					precedent.setVisible(true);
+					indice +=1;
+				}
+				repaint();
+			}
+		});
 		this.add(suivant);
-		this.suivant.addActionListener(next());
+		//this.suivant.addActionListener(this);
 	}
-	
+
 	private void boutonPrecedent() {
 		precedent = new JButton();
 		this.precedent.setBounds(center_width-130,this.getHeight()-70,50,50);
 		this.precedent.setText("<<");
+		precedent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (indice-1 == 0) {
+					precedent.setVisible(false);
+				}
+				if (indice > 0) {
+					suivant.setVisible(true);
+					indice -=1;
+				}
+
+				
+				repaint();
+			}
+		});
 		this.add(precedent);
-		this.precedent.addActionListener(prev());
+		//this.precedent.addActionListener(this);
 	}
 
 	private void boutonAlbum(){
 		album= new JButton();
 		this.album.setBounds(420, 10, 100, 50);
 		this.album.setText("Album");
+		album.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				repaint();
+			}
+		});
 		this.add(album);
-		this.album.addActionListener(this);
+		//this.album.addActionListener(this);
 
 	}
 
@@ -180,6 +211,12 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		favoris= new JButton();
 		this.favoris.setBounds(540, 10, 100, 50);
 		this.favoris.setText("Favoris");
+		favoris.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Controleur.toggle_favoris(active.get(indice));
+				repaint();
+			}
+		});
 		this.add(favoris);
 	}
 
@@ -188,7 +225,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.ajouter.setBounds(660,10,100,50);
 		this.ajouter.setText("Ajouter");
 		this.add(ajouter);
-		this.ajouter.addActionListener(this);
+		//this.ajouter.addActionListener(this);
 
 	}
 
@@ -204,7 +241,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		quitter.setFont(f);
 		this.add(quitter);
 		//Evenement
-		this.quitter.addActionListener(this);
+		//this.quitter.addActionListener(this);
 	}
 
 	private void bouttonSupprimer(){
@@ -266,7 +303,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.rechercher.setBounds(30, 150, 120, 30);
 		this.rechercher.setText("Rechercher");
 		this.add(rechercher);
-		this.rechercher.addActionListener(this);
+		//this.rechercher.addActionListener(this);
 	}
 
 	private void bouttonTrier(){
@@ -274,7 +311,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.trier.setBounds(160, 150, 120, 30);
 		this.trier.setText("Tier");
 		this.add(trier);
-		this.trier.addActionListener(this);
+		//this.trier.addActionListener(this);
 	}
 
 	private void bouttonValider(){
@@ -326,23 +363,39 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.add(mocle5);
 
 	}
-	
-	public static ActionListener next() {
+
+	/*public ActionListener next() {
 		indice += 1;
-		return null;
-	}
-	
-	public static ActionListener prev() {
-		indice -= 1;
+		repaint();
 		return null;
 	}
 
+	public ActionListener prev() {
+		indice -= 1;
+		repaint();
+		return null;
+	}
+
+
+	public ActionListener ajout_manuel() {
+		JFileChooser fic = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF & PNG Images", "jpg", "gif","png");
+		fic.setFileFilter(filter);
+		if (fic.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+			try {
+				Controleur.ajouter_image(fic.getSelectedFile().getPath());
+			} catch (ExceptionNomUtilise e1) {
+				e1.printStackTrace();
+			}
+		repaint();
+		return null;
+	}*/
 
 
 
 	public void actionPerformed(ActionEvent e) {
 
-		if(e.getSource()== this.album){
+		/*if(e.getSource()== this.album){
 			this.mocle1.setVisible(false);
 			this.mocle2.setVisible(false);
 			this.mocle3.setVisible(false);
@@ -359,11 +412,6 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 
 			this.valider.setVisible(false);
 
-			//#######################
-
-			//affichement();
-
-			//#######################
 		}
 		else if(e.getSource()== this.trier){
 			this.mocle1.setText("Mot Clé 1");
@@ -465,17 +513,26 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF & PNG Images", "jpg", "gif","png");
 			fic.setFileFilter(filter);
 			if (fic.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
-				//try {
+				try {
 					Controleur.ajouter_image(fic.getSelectedFile().getPath());
-				/*} catch (ExceptionNomUtilise e1) {
+				} catch (ExceptionNomUtilise e1) {
 					e1.printStackTrace();
-				}*/
+				}
 		}
-		repaint();
+		else if(e.getSource()== this.suivant){
+			if (indice < Modele.all.size()) {
+				indice +=1;
+			}
 
+		}
+		else if(e.getSource()== this.precedent){
+			if (indice > 0) {
+				indice -= 1;
+			}
 
-	}
+		}*/
+		//repaint();
 
-
+	}		
 }
 
