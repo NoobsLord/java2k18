@@ -28,7 +28,9 @@ import modele.*;
 
 public class ConteneurFenetre extends JPanel implements ActionListener {
 	public static int indice=0;
-
+	public static String info;
+	
+	private JButton tout;
 	private JButton album;
 	private JButton favoris;
 	private JButton rechercher;
@@ -43,7 +45,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 	private JButton suivant;
 	private JButton precedent;
 	private JButton addToAlbum;
-	
+
 	private JRadioButton couleur;
 	private JRadioButton nom;
 
@@ -62,7 +64,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 
 	private JTextField champText;
 	static ArrayList<Images> active = new ArrayList<Images>();
-	
+
 	private int center_width;
 	private int center_height;
 
@@ -87,7 +89,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		int x1=this.getWidth()/4;
 		int y1=this.getHeight()/4;
 		int y2=this.getHeight()-130;
-		System.out.println("repaint");
+		//System.out.println("repaint");
 		g.drawLine(0,80,this.getWidth(),80);
 		g.drawLine(0, 130, this.getWidth(), 130);
 		g.drawLine(this.getWidth()-890, this.getHeight()-y2, this.getWidth()-890, this.getHeight());
@@ -95,7 +97,10 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.setVisible(true);
 
 		if (active.size() > 0) {
+			g.setFont(new Font("TimesRoman", Font.BOLD, 15));
+			
 			JPanel pan = new JPanel();
+			g.drawString(info, 30, 30);
 
 			center_width = (this.getWidth()/2)+(310/2);
 			center_height = (this.getHeight()/2)+(130/2)-50;
@@ -104,7 +109,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			Images ancour = active.get(indice);
 			Dimension vanilla = new Dimension(ancour.dim_x,ancour.dim_y);
 			Dimension dim = Controleur.dimension_ratio(vanilla);
-
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 13));
 			Image current = ancour.img.getScaledInstance(dim.width, dim.height, Image.SCALE_SMOOTH);
 			g.drawImage(current, center_width-(dim.width/2)-100,center_height-(dim.height/2),this);
 			g.drawString("dimensions : "+ancour.dim_x+" x "+ancour.dim_y, this.getWidth()-190, 180);
@@ -118,7 +123,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			g.fillRect(this.getWidth()-75, 270, 50, 50);
 			g.setColor(Color.black);
 			g.drawRect(this.getWidth()-75, 270, 50, 50);
-			g.drawString((indice+1) + " / " + active.size(), 666, 750);
+			g.drawString((indice+1) + " / " + active.size(), 666, 745);
 
 			if(ancour.favori) {
 				g.drawImage(fav_on, this.getWidth()-75, 10, this);
@@ -131,6 +136,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 
 	private void proprieteConteneur(){
 		this.setLayout(null);
+		this.boutonTout();
 		this.boutonAlbum();
 		this.boutonFavoris();
 		this.bouttonRechercher();
@@ -148,7 +154,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.bouttonAjourterAlbum();
 
 	}
-	
+
 	private void boutonSuivant() {
 		suivant = new JButton();
 		this.suivant.setBounds(center_width-70,this.getHeight()-70,50,50);
@@ -182,7 +188,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 					indice -=1;
 				}
 
-				
+
 				repaint();
 			}
 		});
@@ -200,6 +206,18 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		});
 		this.add(album);
 	}
+	private void boutonTout(){
+		album= new JButton();
+		this.album.setBounds(300, 10, 100, 50);
+		this.album.setText("Tout");
+		album.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				info = "Toutes les images";
+				repaint();
+			}
+		});
+		this.add(album);
+	}
 
 	private void boutonFavoris(){
 		favoris= new JButton();
@@ -207,8 +225,9 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.favoris.setText("Favoris");
 		favoris.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Controleur.toggle_favoris(active.get(indice));
-				repaint();
+				indice=0;
+				info="Favoris";
+				active = Controleur.afficherFavoris();
 			}
 		});
 		this.add(favoris);
@@ -220,9 +239,22 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.ajouter.setText("Ajouter");
 		this.ajouter.addActionListener(this);
 		this.add(ajouter);
-		
+
 	}
-	
+	public void ajout_manuel() {
+		JFileChooser fic = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF & PNG Images", "jpg", "gif","png");
+		fic.setFileFilter(filter);
+		if (fic.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+			try {
+				Controleur.ajouter_image(fic.getSelectedFile().getPath());
+			} catch (ExceptionNomUtilise e1) {
+				e1.printStackTrace();
+			}
+		//repaint();
+		//return null;
+	}
+
 	private void bouttonAjourterAlbum(){
 		addToAlbum= new JButton();
 		this.addToAlbum.setBounds(1035, 400, 130, 30);
@@ -246,10 +278,11 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		quitter.setFocusPainted(true);
 		Font f=new Font("Time New Roman", Font.ITALIC, 12);
 		quitter.setFont(f);
-		this.add(quitter);
 		this.quitter.addActionListener(this);
-		//Evenement
+		this.add(quitter);
 		
+		//Evenement
+
 	}
 
 	private void bouttonSupprimer(){
@@ -263,6 +296,21 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.supprimer.setFocusPainted(true);
 		Font f=new Font("Arial", Font.ITALIC, 12);
 		this.supprimer.setFont(f);
+		supprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(active.size()>0) {
+					if(indice == active.size()-1) {
+						indice-=1;
+						Controleur.supprimer_image(active.get(indice+1));
+					}
+					else {
+						Controleur.supprimer_image(active.get(indice));
+					}
+
+				}
+			}
+
+		});
 		this.add(supprimer);
 	}
 
@@ -295,33 +343,43 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 
 	private void bouttonInformation(){
 		information= new JButton();
-		this.information.setBounds(780, 90, 110, 30);
+		this.information.setBounds(780, 90, 140, 30);
 		this.information.setForeground(Color.BLACK);
 		this.information.setBackground(Color.CYAN);
-		this.information.setText("Information");
+		this.information.setText("Ajouter aux Favoris");
 		this.information.setBorderPainted(true);
 		this.information.setFocusPainted(true);
 		Font f= new Font("Arial", Font.ITALIC, 12);
 		this.information.setFont(f);
+		information.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Controleur.toggle_favoris(active.get(indice));
+				if(info =="Favoris") {
+					active = Controleur.afficherFavoris();
+				}
+				repaint();
+			}
+
+		});
 		this.add(information);
 	}
 
 	private void bouttonRechercher(){
 		rechercher= new JButton();
 		this.rechercher.setBounds(30, 150, 120, 30);
-		this.rechercher.setText("Rechercher");
+		this.rechercher.setText("Nouvel Album");
 		this.rechercher.addActionListener(this);
 		this.add(rechercher);
-		
+
 	}
 
 	private void bouttonTrier(){
 		trier= new JButton();
 		this.trier.setBounds(160, 150, 120, 30);
-		this.trier.setText("Tier");
+		this.trier.setText("Trier");
 		this.trier.addActionListener(this);
 		this.add(trier);
-		
+
 	}
 
 	private void bouttonValider(){
@@ -373,10 +431,8 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.add(mocle5);
 
 	}
-	
-	//Fonctions Evenement boutton
-	
-	
+
+
 	public void eventAlbum(){
 		this.mocle1.setVisible(false);
 		this.mocle2.setVisible(false);
@@ -395,18 +451,18 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.valider.setVisible(false);
 
 	}
-	
+
 	public void eventTrier(){
 		couleur= new JRadioButton();
 		this.couleur.setText("Par couleur");
 		this.couleur.setBounds(50, 200, 120, 25);
 		this.add(couleur);
-		
+
 		nom= new JRadioButton();
 		this.nom.setText("Par nom");
 		this.nom.setBounds(180, 200, 120, 25);
 		this.add(nom);
-		
+
 		this.mocle1.setText("Mot Clé 1");
 		this.mocle2.setText("Mot Clé 2");
 		this.mocle3.setText("Mot Clé 3");
@@ -469,7 +525,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 
 
 	}
-	
+
 	public void eventRechercher(){
 		this.champText.setBounds(50, 220, 190, 30);
 		this.champText.setBackground(Color.WHITE);
@@ -484,6 +540,17 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		Font f=new Font("Arial", Font.ITALIC, 11);
 		this.valider.setFont(f);
 		this.valider.setVisible(true);
+		this.valider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String str = champText.getText();
+				try {
+					Controleur.creer_album(str);
+				} catch (ExceptionNomUtilise e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+		});
 
 
 		this.mocle1.setVisible(false);
@@ -498,10 +565,11 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.combo3.setVisible(false);
 		this.combo4.setVisible(false);
 		this.combo5.setVisible(false);
+		
+		
 
-		Controleur.tri_couleur(Color.red);
 	}
-	
+
 	public void eventAjouter() throws ExceptionNomUtilise{
 		JFileChooser fic = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF & PNG Images", "jpg", "gif","png");
@@ -514,28 +582,28 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 				e1.printStackTrace();
 			}
 	}
-	
+
 	public void eventAddToAlbum(){
-		
+
 		listAlbum= new JLabel();
 		this.listAlbum.setText("Choisir");
 		this.listAlbum.setBounds(1065, 450, 120, 25);
 		this.listAlbum.setVisible(true);
 		this.add(listAlbum);
-		
+
 		combo1.setBounds(1040, 480, 120, 25);
 		combo1.addItem("Album 1");
 		combo1.addItem("Album 2");
 		combo1.addItem("Album 3");
 		combo1.addItem("Album 4");
 		this.combo1.setVisible(true);
-		
+
 	}
 
 
 
 	//Condition d'evenements
-	
+
 	public void actionPerformed(ActionEvent e) {
 
 		if(e.getSource()== this.album){
@@ -551,33 +619,21 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			this.eventRechercher();
 		}
 		else if(e.getSource()== this.ajouter){
-			try {
-				this.eventAjouter();
-			} catch (ExceptionNomUtilise e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			//try {
+				//this.eventAjouter();
+				ajout_manuel();
+			//} catch (ExceptionNomUtilise e1) {
+				//e1.printStackTrace();
+			//}
 		}
 		else if(e.getSource()== this.addToAlbum){
 			this.eventAddToAlbum();
 		}
-		repaint();
-
-
-	}
-	/*	public ActionListener ajout_manuel() {
-	JFileChooser fic = new JFileChooser();
-	FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF & PNG Images", "jpg", "gif","png");
-	fic.setFileFilter(filter);
-	if (fic.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
-		try {
-			Controleur.ajouter_image(fic.getSelectedFile().getPath());
-		} catch (ExceptionNomUtilise e1) {
-			e1.printStackTrace();
+		else if(e.getSource()== this.quitter) {
+			System.exit(0);
 		}
-	repaint();
-	return null;
-}*/
+		repaint();
+	}
 
 
 }

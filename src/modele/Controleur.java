@@ -56,12 +56,17 @@ public class Controleur {
 			blue = blue/(plop.dim_x * plop.dim_y);
 
 			plop.couleur_moyenne=new Color(red,green,blue);
-			plop.couleur_dominante=max(red,green,blue);
+			if(red==green && red==blue && blue==green) {
+				plop.couleur_dominante=Color.gray;
+			}
+			else {
+				plop.couleur_dominante=max(red,green,blue);
+			}
+			
 
 			plop.favori = false;
 
 			modele.all.add(plop);
-			//display(modele.all);
 
 		}catch (IOException e){
 			e.printStackTrace();
@@ -90,10 +95,12 @@ public class Controleur {
 		return res;
 	}
 
-	public static ArrayList<Images> tri_nom(){
+	public static ArrayList<Images> afficherFavoris(){
 		ArrayList<Images> res = new ArrayList<Images>();
 		for(int i=0;i<Modele.all.size();i++) {
-
+			if (Modele.all.get(i).favori) {
+				res.add(Modele.all.get(i));
+			}
 		}
 
 		return res;
@@ -126,7 +133,7 @@ public class Controleur {
 		return dom;
 	}
 
-	public void supprimer_image(Images img){
+	public static void supprimer_image(Images img){
 		Modele.all.remove(img);
 	}
 
@@ -140,7 +147,7 @@ public class Controleur {
 		}
 	}
 
-	public void creer_album(String nom)throws ExceptionNomUtilise{
+	public static void creer_album(String nom)throws ExceptionNomUtilise{
 		boolean flag=true;
 		for (int i=0;i<Modele.albums.size();i++){
 			if (Modele.albums.get(i).Nom == nom){
@@ -161,9 +168,9 @@ public class Controleur {
 				alb.contenu.add(img);
 			}
 		}
-		/*else{
+		else{
 			throw new ExceptionIntrouvable("Cet album n'existe pas");
-		}*/
+		}
 	}
 
 	public static void toggle_favoris(Images img){
