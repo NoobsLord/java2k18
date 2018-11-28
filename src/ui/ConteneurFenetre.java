@@ -151,7 +151,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.proprieteMocle();
 		this.proprieteComboBox();
 		this.proprieteChampText();
-		this.bouttonAjourterAlbum();
+		this.bouttonAjouterAlbum();
 
 	}
 
@@ -213,6 +213,8 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		album.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				info = "Toutes les images";
+				indice = 0;
+				active = Modele.all;
 				repaint();
 			}
 		});
@@ -255,7 +257,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		//return null;
 	}
 
-	private void bouttonAjourterAlbum(){
+	private void bouttonAjouterAlbum(){
 		addToAlbum= new JButton();
 		this.addToAlbum.setBounds(1035, 400, 130, 30);
 		this.addToAlbum.setText("Add to Album");
@@ -266,6 +268,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		Font f= new Font("Arial", Font.ITALIC, 12);
 		this.addToAlbum.setFont(f);
 		this.addToAlbum.addActionListener(this);
+		this.add(addToAlbum);
 	}
 
 	private void bouttonQuitter(){
@@ -355,6 +358,9 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				Controleur.toggle_favoris(active.get(indice));
 				if(info =="Favoris") {
+					if(indice == active.size()-1) {
+						indice-=1;
+					}
 					active = Controleur.afficherFavoris();
 				}
 				repaint();
@@ -453,7 +459,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 	}
 
 	public void eventTrier(){
-		couleur= new JRadioButton();
+		/*couleur= new JRadioButton();
 		this.couleur.setText("Par couleur");
 		this.couleur.setBounds(50, 200, 120, 25);
 		this.add(couleur);
@@ -461,9 +467,9 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		nom= new JRadioButton();
 		this.nom.setText("Par nom");
 		this.nom.setBounds(180, 200, 120, 25);
-		this.add(nom);
+		this.add(nom);*/
 
-		this.mocle1.setText("Mot Clé 1");
+		/*this.mocle1.setText("Mot Clé 1");
 		this.mocle2.setText("Mot Clé 2");
 		this.mocle3.setText("Mot Clé 3");
 		this.mocle4.setText("Mot Clé 4");
@@ -473,17 +479,24 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.mocle2.setVisible(true);
 		this.mocle3.setVisible(true);
 		this.mocle4.setVisible(true);
-		this.mocle5.setVisible(true);
-
-		combo1.setBounds(140, 240, 120, 25);
-		combo1.addItem("Option 1");
+		this.mocle5.setVisible(true);*/
+		JComboBox combo = new JComboBox();
+		
+		combo.setBounds(140, 240, 120, 25);
+		
+		for (int i=0;i<Modele.albums.size()-1;i++) {
+			combo.addItem(Modele.albums.get(i).nom);
+		}
+		combo.setVisible(true);
+		
+		/*combo1.addItem("Option 1");
 		combo1.addItem("Option 2");
 		combo1.addItem("Option 3");
-		combo1.addItem("Option 4");
-		this.combo1.setVisible(true);
+		combo1.addItem("Option 4");*/
+		
 
 
-		combo2.setBounds(140, 290, 120, 25);
+		/*combo2.setBounds(140, 290, 120, 25);
 		combo2.addItem("Option 1");
 		combo2.addItem("Option 2");
 		combo2.addItem("Option 3");
@@ -509,7 +522,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		combo5.addItem("Option 2");
 		combo5.addItem("Option 3");
 		combo5.addItem("Option 4");
-		this.combo5.setVisible(true);
+		this.combo5.setVisible(true);*/
 
 		this.valider.setBounds(105, 510, 80, 30);
 		this.valider.setText("Valider");
@@ -521,7 +534,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.valider.setFont(f);
 		this.valider.setVisible(true);
 
-		this.champText.setVisible(false);
+		this.champText.setVisible(true);
 
 
 	}
@@ -553,7 +566,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		});
 
 
-		this.mocle1.setVisible(false);
+		/*this.mocle1.setVisible(false);
 		this.mocle2.setVisible(false);
 		this.mocle3.setVisible(false);
 		this.mocle4.setVisible(false);
@@ -564,7 +577,7 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 		this.combo2.setVisible(false);
 		this.combo3.setVisible(false);
 		this.combo4.setVisible(false);
-		this.combo5.setVisible(false);
+		this.combo5.setVisible(false);*/
 		
 		
 
@@ -619,14 +632,9 @@ public class ConteneurFenetre extends JPanel implements ActionListener {
 			this.eventRechercher();
 		}
 		else if(e.getSource()== this.ajouter){
-			//try {
-				//this.eventAjouter();
 				ajout_manuel();
-			//} catch (ExceptionNomUtilise e1) {
-				//e1.printStackTrace();
-			//}
 		}
-		else if(e.getSource()== this.addToAlbum){
+		else if(e.getSource()== this.album){
 			this.eventAddToAlbum();
 		}
 		else if(e.getSource()== this.quitter) {

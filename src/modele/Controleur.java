@@ -150,14 +150,14 @@ public class Controleur {
 	public static void creer_album(String nom)throws ExceptionNomUtilise{
 		boolean flag=true;
 		for (int i=0;i<Modele.albums.size();i++){
-			if (Modele.albums.get(i).Nom == nom){
+			if (Modele.albums.get(i).nom == nom){
 				flag=false;
 				throw new ExceptionNomUtilise("Ce nom est déjà utilise");	
 			}
 		}
 		if (flag) {
 			Album plop=new Album();
-			plop.Nom=nom;
+			plop.nom=nom;
 			Modele.albums.add(plop);
 		}
 	}
